@@ -1,14 +1,17 @@
 version: 2.1
 orbs:
-  node: circleci/node@1.1
+  node: circleci/node@4.7.0
 jobs:
-  build:
-    executor:
-      name: node/default
-      tag: '10.4'
+  test-job:
+    docker:
+      # replace with your preferred image
+      - image: cimg/base:stable
     steps:
-      - checkout
-      - node/with-cache:
-          steps:
-            - run: yarn
-      - run: yarn test
+      - node/install:
+          install-npm: false 
+          install-yarn: true 
+          lts: true 
+workflows:
+  test-workflow:
+    jobs:
+      - test-job
